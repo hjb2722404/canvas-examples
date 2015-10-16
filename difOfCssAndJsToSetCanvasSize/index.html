@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>使用CSS和JS设置Canvas大小的不同</title>
+    <style>
+        .csscode{ width: 24%; float: left; overflow: scroll}
+        .jscode { width: 24%; float: left; overflow: scroll}
+        .content { width: 70%;  float: right; margin-right: 20px; border: 20px solid #ccc;}
+        .explain { width: 70%; float: left; padding: 40px;}
+        canvas { border: 1px solid #ffff00;}
+        #canvas-js{
+            width: 800px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="csscode">
+    <h3>css代码：</h3>
+    <pre>
+
+    canvas { border: 1px solid #ffff00;}
+    #canvas-js{
+        width: 800px;
+        height: 200px;
+    }
+
+
+    </pre>
+</div>
+
+<div class="content">
+
+    <canvas id="canvas-css">
+        对不起，此浏览器不支持Canvas
+    </canvas>
+
+    <canvas id="canvas-js">
+        对不起，此浏览器不支持Canvas
+
+    </canvas>
+
+</div>
+
+<div class="jscode">
+    <h3>js代码：</h3>
+    <pre>
+        var canvasOfCss = document.getElementById("canvas-css");
+    canvasOfCss.width = 800;
+    canvasOfCss.height =200;
+    var ctx = canvasOfCss.getContext("2d");
+
+    ctx.font = "50px 微软雅黑";
+    ctx.fillstyle = "#ff0000";
+    ctx.fillText("额滴神啊",100,100);
+
+    var canvasOfJs = document.getElementById("canvas-js");
+    var ctx2 = canvasOfJs.getContext("2d");
+
+    ctx2.font = "50px 微软雅黑";
+    ctx2.fillstyle = "#ff0000";
+    ctx2.fillText("额滴娘啊",100,100);
+    </pre>
+</div>
+
+<div class="explain">
+    <h3>说明：</h3>
+    <h4>通过此例可以看出，通过css给canvas设置宽高和通过js给canvas对象设置宽高的区别：</h4>
+    <p>1、通过CSS设置canvas元素的宽高时数值要带单位,比如“px”，而通过JS设置则不能加单位，并且数值为非负整数；</p>
+    <p>2、默认情况下，canvas绘图表面的宽高与canvas元素宽高一致；</p>
+    <p>3、在JS中设置的，是canvas绘图表面的宽高</p>
+    <p>4、在CSS中设置的，是canvas元素的宽高</p>
+    <p>5、当在CSS中为canvas元素设置了不用于canvas绘图表面大小的宽高后，浏览器会将绘图表面缩放至与元素相同的尺寸，利用此特性，可以将canvas元素设置为百分比大小，就可以实现canvas的响应式设计</p>
+</div>
+<script>
+
+    var canvasOfCss = document.getElementById("canvas-css");
+    canvasOfCss.width = 800;
+    canvasOfCss.height =200;
+    var ctx = canvasOfCss.getContext("2d");
+
+    ctx.font = "50px 微软雅黑";
+    ctx.fillstyle = "#ff0000";
+    ctx.fillText("额滴神啊",100,100);
+
+    var canvasOfJs = document.getElementById("canvas-js");
+    var ctx2 = canvasOfJs.getContext("2d");
+
+    ctx2.font = "50px 微软雅黑";
+    ctx2.fillstyle = "#ff0000";
+    ctx2.fillText("额滴娘啊",100,100);
+
+</script>
+</body>
+</html>
