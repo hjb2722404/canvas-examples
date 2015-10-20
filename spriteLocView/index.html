@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>精灵坐标查看器</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="readout"></div>
+    <canvas id="canvas" width="500" height="250">
+        对不起，该浏览器不支持此功能
+    </canvas>
+
+
+<script>
+    var canvas = document.getElementById("canvas"),
+            readout = document.getElementById("readout"),
+            context = canvas.getContext('2d'),
+            spritesheet = new Image();
+
+    function windowToCanvas(canvas,x,y){
+        var bbox = canvas.getBoundingClientRect();
+        return {
+            x:x-bbox.left * (canvas.width / bbox.width),
+            y:y-bbox.top * (canvas.height / bbox.height)
+        };
+    }
+
+    function drawBackground() {
+        var VERTICAL_LINE_SPACING =12,
+                i = context.canvas.height;
+
+        context.clearRect(0,0,canvas.width,canvas.height);
+        context.strokeStyle = 'lightgray';
+        context.lineWidth = 0.5;
+
+        while(i > VERTICAL_LINE_SPACING*4) {
+            context.beginPath();
+            context.moveTo(0,i);
+            context.lineTo(context.canvas.width,i)
+            context.stroke();
+            i -= VERTICAL_LINE_SPACING;
+        }
+    }
+
+    function drawSpritesheet(){
+        context.drawImage(spritesheet,0,0);
+
+    }
+
+    function drawGuidelines(x,y){
+        context.strokeStyle = ' rgba(0,0,230,0.8)';
+        context.lineWidth = 0.5;
+        drawVerticalLine(x);
+        drawHorizontalLine(y);
+    }
+
+    function updateReadout(x,y){
+        readout.innerText = '('+ x.toFixed(0)+', '+ y.toFixed(0) +')';
+    }
+
+    function drawHorizontalLine (y) {
+        context.beginPath();
+        context.moveTo(0,y+0.5);
+        context.lineTo(context.canvas.width,y+0.5);
+        context.stroke();
+    }
+
+    function drawVerticalLine (x) {
+        context.beginPath();
+        context.moveTo(x + 0.5, 0);
+        context.lineTo(x+0.5 ,context.canvas.width);
+        context.stroke();
+    }
+
+    canvas.onmouseover = function(e){
+        var loc = windowToCanvas(canvas, e.clientX, e.clientY);
+
+        drawBackground();
+        drawSpritesheet();
+        drawGuidelines(loc.x,loc.y);
+        updateReadout(loc.x,loc.y);
+    }
+
+    spritesheet.src ='aaa.jpg';
+    spritesheet.onload = function(e){
+        drawSpritesheet();
+    };
+
+    drawBackground();
+
+
+</script>
+</body>
+</html>
